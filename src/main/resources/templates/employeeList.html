@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Employees</title>
+  </head>
+  <body>
+    <div class="wrapper">
+      <h2>EMPLOYEE LIST</h2>
+      <table>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Image</th>
+          <th>Update</th>
+          <th>Delete</th>
+        </tr>
+        <tr th:each="employee : ${employees}">
+          SE2 - TUTORIAL 2
+          <td th:text="${employee.id}" />
+          <td>
+            <a th:href="'/detail/'+${employee.id}" th:text="${employee.name}"></a>
+          </td>
+          <td>
+            <img th:src="${employee.image}" width="100" height="100" />
+          </td>
+          <td>UPDATE</td>
+          <td>DELETE</td>
+        </tr>
+      </table>
+    </div>
+  </body>
+</html>
