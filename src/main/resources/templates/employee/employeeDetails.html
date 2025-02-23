@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Employee Detail</title>
-  </head>
-  <body>
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="_layout">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Employee Detail</title>
+</head>
+
+<body>
+  <div class="wrapper" layout:fragment="content">
+
     <h1>Employee Details</h1>
     <div>
-      <img
-        th:src="${employee.image}"
-        alt="Employee Image"
-        width="150"
-        height="150"
-      />
+      <img th:src="${employee.image}" alt="Employee Image" width="150" height="150" />
     </div>
     <table border="1">
       <tr>
@@ -32,8 +32,14 @@
         <th>Address</th>
         <td th:text="${employee.address}"></td>
       </tr>
+      <tr>
+        <th>Company</th>
+        <td th:text="${employee.company.name}"></td>
+      </tr>
     </table>
     <br />
-    <a href="/">Back to Employee List</a>
-  </body>
+    <a th:href="'/employee/'">Back to Employee List</a>
+  </div>
+</body>
+
 </html>

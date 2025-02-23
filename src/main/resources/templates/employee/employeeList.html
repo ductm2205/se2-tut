@@ -1,43 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Employees</title>
-  </head>
-  <body>
-    <div class="wrapper">
-      <h2>EMPLOYEE LIST</h2>
-      <div class="add">
-        <a th:href="'/add'">New</a>
-      </div>
-      <table>
-        <tr>
-          <th>ID</th>
-          <th>Name</th>
-          <th>Image</th>
-          <th>Update</th>
-          <th>Delete</th>
-        </tr>
-        <tr th:each="employee : ${employees}">
-          <td th:text="${employee.id}" />
-          <td>
-            <a
-              th:href="'/detail/'+${employee.id}"
-              th:text="${employee.name}"
-            ></a>
-          </td>
-          <td>
-            <img th:src="${employee.image}" width="100" height="100" alt="employee_image"/>
-          </td>
-          <td>
-            <a th:href="'/update/' + ${employee.id} " th:text="UPDATE"></a>
-          </td>
-          <td>
-            <a th:href="'/delete/' + ${employee.id} " th:text="DELETE"></a>
-          </td>
-        </tr>
-      </table>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
+layout:decorate="_layout">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Employees</title>
+</head>
+
+<body>
+  <div class="wrapper"  layout:fragment="content">
+    <h2>EMPLOYEE LIST</h2>
+    <div class="add">
+      <a th:href="'/employee/add'">New</a>
     </div>
-  </body>
+    <table>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Image</th>
+        <th>Company</th>
+        <th>Update</th>
+        <th>Delete</th>
+      </tr>
+      <tr th:each="employee : ${employees}">
+        <td th:text="${employee.id}" />
+        <td>
+          <a th:href="'/employee/detail/'+${employee.id}" th:text="${employee.name}"></a>
+        </td>
+        <td>
+          <img th:src="${employee.image}" width="100" height="100" alt="employee_image" />
+        </td>
+        <td>
+          <a th:href="'/company/' + ${employee.company.id} " th:text="${employee.company.name}"></a>
+        </td>
+        <td>
+          <a th:href="'/employee/update/' + ${employee.id} " th:text="UPDATE"></a>
+        </td>
+        <td>
+          <a th:href="'/employee/delete/' + ${employee.id} " th:text="DELETE"></a>
+        </td>
+      </tr>
+    </table>
+  </div>
+</body>
+
 </html>

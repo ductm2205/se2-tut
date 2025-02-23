@@ -23,4 +23,7 @@ public class Employee {
     private int age;
     private String image;
     private String address;
+
+    @ManyToOne
+    private Company company;
 }

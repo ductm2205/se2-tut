@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="_layout">
 
 <head>
   <meta charset="UTF-8" />
@@ -8,9 +9,9 @@
 </head>
 
 <body>
-  <div class="wrapper">
+  <div class="wrapper" layout:fragment="content">
     <h2>UPDATE EMPLOYEE</h2>
-    <form method="post" action="/save" th:object="${employee}">
+    <form method="post" th:action="'/employee/save'" th:object="${employee}">
       <input type="hidden" th:field="*{id}" />
       <p>
         <label for="name">Employee name: </label>
@@ -27,6 +28,13 @@
       <p class="form-group">
         <label for="address">Employee address </label>
         <input type="text" th:field="*{address}" name="address" id="address" />
+      </p>
+      <p class="form-group">
+        <label for="company">Employee company </label>
+        <select required name="company" id="company" th:field="*{company}">
+          <option value="">Choose company...</option>
+          <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}" />
+        </select>
       </p>
       <p>
         <button type="submit">UPDATE</button>

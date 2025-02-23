@@ -11,14 +11,20 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import se2.tut02.model.Company;
 import se2.tut02.model.Employee;
+import se2.tut02.repository.CompanyRepository;
 import se2.tut02.repository.EmployeeRepository;
 
 @Controller
+@RequestMapping(value = "/employee")
 public class EmployeeController {
 
     @Autowired
     EmployeeRepository employeeRepository;
+
+    @Autowired
+    CompanyRepository companyRepository;
 
     @RequestMapping(value = "/")
     public String getAllEmployees(Model model) {
@@ -44,20 +50,24 @@ public class EmployeeController {
     @GetMapping(value = "/update/{id}")
     public String updateEmployee(@PathVariable(value = "id") Long id, Model model) {
         Employee employee = employeeRepository.findById(id).get();
+        List<Company> companies = companyRepository.findAll();
         model.addAttribute("employee", employee);
+        model.addAttribute("companies", companies);
         return "employee/employeeUpdate";
     }
 
     @PostMapping(value = "/save")
     public String saveUpdate(Employee employee) {
         employeeRepository.save(employee);
-        return "redirect:/detail/" + employee.getId();
+        return "redirect:/employee/detail/" + employee.getId();
     }
 
     @GetMapping(value = "/add")
     public String addEmployee(Model model) {
         Employee employee = new Employee();
+        List<Company> companies = companyRepository.findAll();
         model.addAttribute("employee", employee);
+        model.addAttribute("companies", companies);
         return "employee/employeeAdd";
     }
 
@@ -67,7 +77,7 @@ public class EmployeeController {
             Employee employee = employeeRepository.findById(id).get();
             employeeRepository.delete(employee);
         }
-        return "redirect:/";
+        return "redirect:/employee/";
     }
 
 }
