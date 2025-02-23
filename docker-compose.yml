@@ -6,7 +6,7 @@ services:
     working_dir: /app
     volumes:
       - .:/app
-      - ~/.m2:/root/.m2  # Cache dependencies
+      - ~/.m2:/root/.m2 
     ports:
       - "8080:8080"
     depends_on:
