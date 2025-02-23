@@ -1,0 +1,8 @@
+target/
+*.jar
+*.war
+*.iml
+.idea/
+*.md
+node_modules/
+.vscode/
