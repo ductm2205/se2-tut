@@ -25,7 +25,7 @@ public class EmployeeController {
         List<Employee> employees = employeeRepository.findAll();
 
         model.addAttribute("employees", employees);
-        return "employeeList";
+        return "employee/employeeList";
     }
 
     @RequestMapping(value = "/detail/{id}")
@@ -38,14 +38,14 @@ public class EmployeeController {
             return "error"; // Handle missing employee case
         }
 
-        return "employeeDetails";
+        return "employee/employeeDetails";
     }
 
     @GetMapping(value = "/update/{id}")
     public String updateEmployee(@PathVariable(value = "id") Long id, Model model) {
         Employee employee = employeeRepository.findById(id).get();
         model.addAttribute("employee", employee);
-        return "employeeUpdate";
+        return "employee/employeeUpdate";
     }
 
     @PostMapping(value = "/save")
@@ -58,7 +58,7 @@ public class EmployeeController {
     public String addEmployee(Model model) {
         Employee employee = new Employee();
         model.addAttribute("employee", employee);
-        return "employeeAdd";
+        return "employee/employeeAdd";
     }
 
     @GetMapping(value = "/delete/{id}")

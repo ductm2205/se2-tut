@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADD EMPLOYEE</title>
+</head>
+
+<body>
+  <div class="wrapper">
+    <h2>ADD EMPLOYEE</h2>
+    <form th:action="'/save'" th:object="${employee}" method="post">
+      <p>
+        <label for="name">Employee name: </label>
+        <input type="text" th:field="*{name}" name="name" id="name" />
+      </p>
+      <p>
+        <label for="age">Employee age: </label>
+        <input type="number" th:field="*{age}" name="age" id="age" />
+      </p>
+      <p class="form-group">
+        <label for="imageimage">Employee image: </label>
+        <input type="text" th:field="*{image}" name="imageimage" id="imageimage" />
+      </p>
+      <p class="form-group">
+        <label for="address">Employee address </label>
+        <input type="text" th:field="*{address}" name="address" id="address" />
+      </p>
+      <p>
+        <button type="submit">ADD</button>
+      </p>
+    </form>
+  </div>
+</body>
+
+</html>
