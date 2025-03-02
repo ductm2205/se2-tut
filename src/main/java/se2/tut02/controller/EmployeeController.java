@@ -4,12 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import se2.tut02.model.Company;
 import se2.tut02.model.Employee;
@@ -27,10 +29,40 @@ public class EmployeeController {
     CompanyRepository companyRepository;
 
     @RequestMapping(value = "/")
-    public String getAllEmployees(Model model) {
-        List<Employee> employees = employeeRepository.findAll();
+    public String getAllEmployees(
+            Model model,
+            @RequestParam(value = "company", required = false, defaultValue = "0") Long companyId,
+            @RequestParam(value = "sort", required = false, defaultValue = "0") int sortMode) {
+        List<Company> companies = companyRepository.findAll();
+        Sort sort;
+        String sortColumn = "id";
+        Sort.Direction sortOrder = Sort.Direction.DESC;
+        if (sortMode == 1 || sortMode == 2) {
+            sortOrder = Sort.Direction.ASC;
+        }
+        if (sortMode == 2 || sortMode == 3) {
+            sortColumn = "name";
+        }
 
+        sort = Sort.by(sortOrder, sortColumn);
+        List<Employee> employees = null;
+
+        if (companyId != 0) {
+            Optional<Company> comp = companyRepository.findById(companyId);
+            if (comp.isPresent()) {
+                employees = employeeRepository.findByCompany(
+                        comp.get(),
+                        sort);
+            }
+        }
+        if (employees == null) {
+            employees = employeeRepository.findAll(sort);
+        }
+
+        model.addAttribute("companies", companies);
         model.addAttribute("employees", employees);
+        model.addAttribute("companyId", companyId);
+        model.addAttribute("sortMode", sortMode);
         return "employee/employeeList";
     }
 

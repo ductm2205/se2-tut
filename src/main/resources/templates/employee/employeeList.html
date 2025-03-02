@@ -1,7 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org"
- xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" 
-layout:decorate="_layout">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="_layout">
 
 <head>
   <meta charset="UTF-8" />
@@ -10,7 +9,7 @@ layout:decorate="_layout">
 </head>
 
 <body>
-  <div class="wrapper"  layout:fragment="content">
+  <div class="wrapper" layout:fragment="content">
     <h2>EMPLOYEE LIST</h2>
     <div class="add">
       <a th:href="'/employee/add'">New</a>
@@ -43,7 +42,54 @@ layout:decorate="_layout">
         </td>
       </tr>
     </table>
+    <div class="filterContainer">
+      Company:
+      <select aria-label="Companies" name="companies" id="filterCompany" title="">
+        <option value="0">All companies</option>
+        <option name="companies" th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}" />
+      </select>
+      Sort:
+      <select aria-label="Companies" id="sortOptions">
+        <option value="0">Latest</option>
+        <option value="1">Oldest</option>
+        <option value="2">By name ASC</option>
+        <option value="3">By name DESC</option>
+      </select>
+    </div>
   </div>
+
+  <script th:inline="javascript">
+    let companyId = /*[[${ companyId }]]*/ null;
+    let sortMode = /*[[${ sortMode }]]*/ null;
+
+    function filterRedirect() {
+      let url = "/employee/?company=" + companyId + "&sort=" + sortMode;
+      window.location.href = url;
+    }
+
+    window.addEventListener('load', () => {
+      const comFilter = document.getElementById('filterCompany');
+      const sortFilter = document.getElementById('sortOptions');
+
+      if (comFilter) comFilter.value = companyId;
+      if (sortFilter) sortFilter.value = sortMode;
+
+      if (comFilter) {
+        comFilter.addEventListener('change', (e) => {
+          companyId = e.target.value;
+          filterRedirect();
+        });
+      }
+
+      if (sortFilter) {
+        sortFilter.addEventListener('change', (e) => {
+          sortMode = e.target.value;
+          filterRedirect();
+        });
+      }
+    });
+  </script>
+
 </body>
 
 </html>
