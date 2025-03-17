@@ -1,73 +1,135 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="_layout">
-
-<head>
-    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<html
+  lang="en"
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="_layout"
+>
+  <head>
+    <meta charset="UTF-8" />
     <title>Employee List</title>
     <link rel="stylesheet" th:href="@{/css/style.css}" />
     <script>
-        let comId = [[${ comId }]];
-        let sortMode = [[${ sortMode }]];
-        function filterRedirect() {
-            let url = "/employee/?company=" + comId + "&sort=" + sortMode;
-            window.location.href = url; // redirect
-        }
-        window.addEventListener("load", function () {
-            const comFilter = document.getElementById("filterCompany");
-            comFilter.value = comId;
-            comFilter.addEventListener("change", function (e) {
-                comId = e.target.value;
-                filterRedirect();
-            });
-            const sortMenu = document.getElementById("sortOptions");
-            sortMenu.value = sortMode;
-            sortMenu.addEventListener("change", function (e) {
-                sortMode = e.target.value;
-                filterRedirect();
-            });
-        });
-    </script>
-</head>
+      let comId = [[${ comId }]];
+      let gender = [[${gender}]];
+      let sortMode = [[${ sortMode }]];
+      let page = [[${ page }]];
+      
+      function filterRedirect() {
+          let url = "/employee/?company=" + comId + "&gender=" + gender;
+          url = url + "&sort=" + sortMode + "&page=" + page;
+          window.location.href = url; // redirect
+      }
 
-<body>
-<div layout:fragment="content">
-    <h2>EMPLOYEE LIST</h2>
-    <div class="filterContainer">
+      window.addEventListener("load", function () {
+          const comFilter = document.getElementById("filterCompany");
+          comFilter.value = comId;
+          comFilter.addEventListener("change", function (e) {
+              comId = e.target.value;
+              page = 0; // Reset to first page when filter changes
+              filterRedirect();
+          });
+          
+          const sortMenu = document.getElementById("sortOptions");
+          sortMenu.value = sortMode;
+          sortMenu.addEventListener("change", function (e) {
+              sortMode = e.target.value;
+              page = 0; // Reset to first page when sort changes
+              filterRedirect();
+          });
+          
+          const genderFilter = document.getElementById("filterGender");
+          genderFilter.value = gender;
+          genderFilter.addEventListener("change", function () {
+              gender = genderFilter.value;
+              page = 0; // Reset to first page when filter changes
+              filterRedirect();
+          });
+          
+          // Add event listeners for pagination links
+          const pageLinks = document.querySelectorAll("#pagibar > a");
+          pageLinks.forEach(link => {
+              link.addEventListener("click", (e) => {
+                  e.preventDefault();
+                  page = parseInt(link.getAttribute("data"));
+                  filterRedirect();
+              });
+          });
+      });
+    </script>
+  </head>
+  <body>
+    <div layout:fragment="content">
+      <h2>EMPLOYEE LIST</h2>
+      <div class="filterContainer">
         Company:
         <select id="filterCompany">
-            <option value="0">All companies</option>
-            <option th:each="comp : ${companies}" th:value="${comp.id}" th:text="${comp.name}" />
+          <option value="0">All companies</option>
+          <option
+            th:each="comp : ${companies}"
+            th:value="${comp.id}"
+            th:text="${comp.name}"
+          />
         </select>
         Sort:
         <select id="sortOptions">
-            <option value="0">Latest</option>
-            <option value="1">Oldest</option>
-            <option value="2">By name ASC</option>
-            <option value="3">By name DESC</option>
+          <option value="0">Latest</option>
+          <option value="1">Oldest</option>
+          <option value="2">By name ASC</option>
+          <option value="3">By name DESC</option>
         </select>
-    </div>
-    <section class="employees">
+        <select id="filterGender">
+          <option value="0">All genders</option>
+          <option th:value="1" th:text="Female" />
+          <option th:value="2" th:text="Male" />
+        </select>
+      </div>
+      <section class="employees">
         <div class="employeeHeaders">
-            <div>ID</div>
-            <div>Name</div>
-            <div>Image</div>
-            <div>Update</div>
-            <div>Delete</div>
+          <div>ID</div>
+          <div>Name</div>
+          <div>Image</div>
+          <div>Update</div>
+          <div>Delete</div>
         </div>
         <div class="employeeBody">
-            <div class="employee" th:each="employee : ${employees}">
-                <div th:text="${employee.id}"></div>
-                <div><a th:href="'/employee/detail/' + ${employee.id}" th:text="${employee.name}">Name</a></div>
-                <div>
-                    <img th:src="${employee.image}" width="100" height="100" />
-                </div>
-                <div><a th:href="'/employee/update/' + ${employee.id}">Update</a></div>
-                <div><a th:href="'/employee/delete/' + ${employee.id}">Delete</a></div>
+          <div class="employee" th:each="employee : ${employees}">
+            <div th:text="${employee.id}"></div>
+            <div>
+              <a
+                th:href="'/employee/detail/' + ${employee.id}"
+                th:text="${employee.name}"
+                >Name</a
+              >
             </div>
+            <div>
+              <img
+                th:src="${employee.image}"
+                width="100"
+                height="100"
+                alt="Employee Image"
+              />
+            </div>
+            <div>
+              <a th:href="'/employee/update/' + ${employee.id}">Update</a>
+            </div>
+            <div>
+              <a th:href="'/employee/delete/' + ${employee.id}">Delete</a>
+            </div>
+          </div>
         </div>
-    </section>
-</div>
-</body>
-
+      </section>
+      
+      <!-- Pagination Bar -->
+      <div id="pagibar" class="pagination">
+        <a th:if="${page > 0}" th:attr="data=${page-1}" href="#">Previous</a>
+        <span th:each="i : ${#numbers.sequence(0, pages-1)}">
+          <a th:if="${i != page}" th:attr="data=${i}" href="#" th:text="${i+1}"></a>
+          <span th:if="${i == page}" th:text="${i+1}" class="current-page"></span>
+        </span>
+        <a th:if="${page < pages-1}" th:attr="data=${page+1}" href="#">Next</a>
+      </div>
+    </div>
+  </body>
 </html>
