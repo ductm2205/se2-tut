@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout">
+<head>
+    <meta charset="UTF-8">
+    <title>[[ ${company.name} ]] - Company Information</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1>COMPANY INFORMATION</h1>
+    <div class="employeeProfile">
+        <div class="avatar">
+            <img th:src="${company.image}" width="240"/>
+        </div>
+        <div class="info">
+            <div>
+                <div>Name:</div>
+                <div th:text="${company.name}">...</div>
+            </div>
+            <div>
+                <div>Address:</div>
+                <div th:text="${company.address}">...</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+
+</html>

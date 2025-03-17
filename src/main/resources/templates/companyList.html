@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout">
+<head>
+    <meta charset="UTF-8">
+    <title>Company List</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+<body>
+<div layout:fragment="content">
+    <h2>COMPANY LIST</h2>
+    <section class="employees">
+        <div class="employeeHeaders">
+            <div>ID</div>
+            <div>Name</div>
+            <div>Image</div>
+            <div>Update</div>
+            <div>Delete</div>
+        </div>
+        <div class="employeeBody">
+            <div class="employee" th:each="company : ${companies}">
+                <div th:text="${company.id}"></div>
+                <div><a th:href="'/company/' + ${company.id}" th:text="${company.name}">Name</a></div>
+                <div>
+                    <img th:src="${company.image}" width="100"/>
+                </div>
+                <div><a th:href="'/company/update/' + ${company.id}">Update</a></div>
+                <div><a th:href="'/company/delete/' + ${company.id}">Delete</a></div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>

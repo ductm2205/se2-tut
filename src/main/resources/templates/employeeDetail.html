@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="_layout">
+
+<head>
+    <meta charset="UTF-8">
+    <title>[[ ${employee.name} ]] - Employee Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}"/>
+</head>
+
+<body>
+<div layout:fragment="content">
+    <h1>EMPLOYEE PROFILE</h1>
+    <div class="employeeProfile">
+        <div class="avatar">
+            <img th:src="${employee.image}" width="240" height="240"/>
+        </div>
+        <div class="info">
+            <div>
+                <div>Name:</div>
+                <div th:text="${employee.name}">...</div>
+            </div>
+            <div>
+                <div>Age:</div>
+                <div th:text="${employee.age}">...</div>
+            </div>
+            <div>
+                <div>Address:</div>
+                <div th:text="${employee.address}">...</div>
+            </div>
+            <div>
+                <div>Company:</div>
+                <div th:text="${employee.company.name}">...</div>
+            </div>
+        </div>
+
+    </div>
+</div>
+</body>
+
+</html>

@@ -1,0 +1,115 @@
+body {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+.container {
+    width: 800px;
+    margin: 0px auto;
+}
+
+.control-group {
+    margin: 10px 0px;
+}
+
+.error {
+    color: red;
+}
+
+nav {
+    padding-bottom: 15px;
+}
+
+nav>a {
+    padding-right: 12px;
+}
+
+.filterContainer {
+    padding-bottom: 15px;
+}
+
+.employeeHeaders {
+    display: flex;
+    background: #ccc;
+}
+
+.employeeHeaders>div {
+    font-weight: bold;
+}
+
+.employeeHeaders>div,
+.employee>div {
+    padding: 3px;
+    margin: 3px;
+}
+
+.employee {
+    display: flex;
+    margin-top: 3px;
+    background: #def;
+}
+
+.employee>div:nth-child(1),
+.employeeHeaders>div:nth-child(1) {
+    flex: 1
+}
+
+.employee>div:nth-child(2) {
+    flex: 6;
+    text-align: left;
+}
+
+.employeeHeaders>div:nth-child(2) {
+    flex: 6;
+}
+
+.employee>div:nth-child(3),
+.employeeHeaders>div:nth-child(3) {
+    flex: 3
+}
+
+.employee>div:nth-child(4),
+.employeeHeaders>div:nth-child(4) {
+    flex: 2
+}
+
+.employee>div:nth-child(5),
+.employeeHeaders>div:nth-child(5) {
+    flex: 2
+}
+
+.employeeForm {
+    padding: 10px;
+    background-color: aliceblue;
+}
+
+.form-control {
+    padding-bottom: 15px;
+}
+
+.employeeProfile {
+    display: flex;
+}
+
+.avatar {
+    width: 240px;
+    margin-right: 10px;
+}
+
+.info {
+    flex: 1;
+    padding: 10px;
+    background-color: aliceblue;
+}
+
+.info>div {
+    display: flex;
+    margin-bottom: 15px;
+}
+
+.info>div>div:nth-child(1) {
+    flex: 1
+}
+
+.info>div>div:nth-child(2) {
+    flex: 2
+}
