@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{_memberLayout}">
+
+<head>
+    <title>My Posts</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h2>My Posts</h2>
+        <a th:href="@{/member/post/add}" class="btn btn-primary mb-3">Add New Post</a>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Slug</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="post : ${posts.content}">
+                    <td th:text="${post.title}"></td>
+                    <td th:text="${post.slug}"></td>
+                    <td>
+                        <a th:href="@{/member/post/edit/{id}(id=${post.id})}" class="btn btn-sm btn-warning">Edit</a>
+                        <a th:href="@{/member/post/del/{id}(id=${post.id})}"
+                            class="btn btn-sm btn-danger delete-post">Delete</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <nav th:if="${posts.totalPages > 1}">
+            <ul class="pagination">
+                <li class="page-item" th:classappend="${posts.first} ? 'disabled'">
+                    <a class="page-link" th:href="@{/member/post/list(p=${posts.number})}">Previous</a>
+                </li>
+                <li class="page-item" th:each="i : ${#numbers.sequence(1, posts.totalPages)}"
+                    th:classappend="${i == currentPage} ? 'active'">
+                    <a class="page-link" th:href="@{/member/post/list(p=${i})}" th:text="${i}"></a>
+                </li>
+                <li class="page-item" th:classappend="${posts.last} ? 'disabled'">
+                    <a class="page-link" th:href="@{/member/post/list(p=${posts.number + 2})}">Next</a>
+                </li>
+            </ul>
+        </nav>
+
+        <script>
+            document.querySelectorAll('.delete-post').forEach(link => {
+                link.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    if (confirm('Are you sure you want to delete this post?')) {
+                        window.location.href = this.href;
+                    }
+                });
+            });
+        </script>
+    </div>
+</body>
+
+</html>

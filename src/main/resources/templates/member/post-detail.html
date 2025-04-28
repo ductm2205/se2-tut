@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+    layout:decorate="~{_mainLayout}">
+
+<head>
+    <title th:text="${post.title}">Post Detail</title>
+</head>
+
+<body>
+    <div layout:fragment="content">
+        <h2 th:text="${post.title}"></h2>
+        <p>
+            By <a th:href="@{/author/{username}(username=${post.user.username})}" th:text="${post.user.username}"></a>
+            on <span th:text="${post.dateCreated}"></span> | Views: <span th:text="${post.viewCount}"></span>
+        </p>
+        <div th:utext="${post.content}"></div>
+    </div>
+</body>
+
+</html>
