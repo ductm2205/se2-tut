@@ -1,23 +1,18 @@
-# step 1: build stage
+# Single-stage image for development with hot reloading
+FROM maven:3.9.9-eclipse-temurin-17
 
-FROM maven:3.9-amazoncorretto-17 AS builder
-
+# Set working directory
 WORKDIR /app
 
+# Copy project files
 COPY pom.xml .
+COPY src ./src
 
-COPY . .
+# Install dependencies (cached unless pom.xml changes)
+RUN mvn dependency:resolve
 
-RUN mvn clean package -DskipTests
-
-# step 2: run stage
-
-FROM eclipse-temurin:17-jdk
-
-WORKDIR /app
-
-COPY --from=builder /app/target/*.jar app.jar
-
+# Expose the application port
 EXPOSE 8080
 
-ENTRYPOINT [ "java", "-jar", "app.jar" ]
+# Run the app with Spring Boot Maven plugin (hot reloading enabled by DevTools)
+CMD ["mvn", "spring-boot:run"]
