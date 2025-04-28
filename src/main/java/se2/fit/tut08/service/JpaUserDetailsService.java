@@ -18,7 +18,7 @@ public class JpaUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        var user = userRepository.findByUserName(username);
+        var user = userRepository.findByUsername(username);
         if (user == null) {
             throw new EntityNotFoundException(String.format("User with username %s does not exist", username));
         }

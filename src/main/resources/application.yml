@@ -19,3 +19,9 @@ spring:
   docker:
     compose:
       docker-executable: /usr/bin/docker
+
+logging:
+  level:
+    org:
+      sprintframework:
+        security: DEBUG
